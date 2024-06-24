@@ -3,8 +3,12 @@
 #include <tinyxml2.h>
 #include "os_detector.hpp"
 #include "software_checker.hpp"
+#include "script_runner.hpp"
 #include <lua.hpp>
 
+extern "C" {
+    #include "python.h"
+}
 using namespace tinyxml2;
 
 void runLuaScript(const std::string& scriptName) {
