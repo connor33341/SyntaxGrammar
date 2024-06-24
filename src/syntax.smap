@@ -1,0 +1,4 @@
+NUMBER \b\d+(\.\d+)?\b
+WORD \b\w+\b
+PUNCTUATION [.,!?;:]
+WHITESPACE \s+
