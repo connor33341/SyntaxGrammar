@@ -9,6 +9,9 @@ add_subdirectory(src)
 # Find and include tinyxml2 library
 find_package(tinyxml2 REQUIRED)
 
-# Add executable and link tinyxml2
+# Find and include Lua library
+find_package(Lua REQUIRED)
+
+# Add executable and link tinyxml2 and Lua
 add_executable(OSChecker src/main.cpp src/os_detector.cpp src/software_checker.cpp)
-target_link_libraries(OSChecker tinyxml2::tinyxml2)
+target_link_libraries(OSChecker tinyxml2::tinyxml2 Lua::Lua)
