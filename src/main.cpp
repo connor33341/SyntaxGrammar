@@ -77,7 +77,7 @@ int main() {
 
     if (pythonInstalled) {
         std::cout << "Running main.py script..." << std::endl;
-        runPythonScript("main.py");
+        runPythonScript("src/main.py");
     } else {
         std::cerr << "Cannot run main.py script because Python 3 is not installed." << std::endl;
     }
