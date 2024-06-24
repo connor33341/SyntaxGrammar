@@ -3,23 +3,19 @@
 #include <tinyxml2.h>
 #include "os_detector.hpp"
 #include "software_checker.hpp"
-
-extern "C" {
-    #include <Python.h>
-}
+#include <lua.hpp>
 
 using namespace tinyxml2;
 
-void runPythonScript(const std::string& scriptName) {
-    Py_Initialize();
-    FILE* fp = fopen(scriptName.c_str(), "r");
-    if (fp) {
-        PyRun_SimpleFile(fp, scriptName.c_str());
-        fclose(fp);
-    } else {
-        std::cerr << "Failed to open Python script: " << scriptName << std::endl;
+void runLuaScript(const std::string& scriptName) {
+    lua_State *L = luaL_newstate();  // Create a new Lua state
+    luaL_openlibs(L);                // Open the standard libraries
+
+    if (luaL_dofile(L, scriptName.c_str())) {
+        std::cerr << "Failed to run Lua script: " << lua_tostring(L, -1) << std::endl;
     }
-    Py_Finalize();
+
+    lua_close(L);  // Close the Lua state
 }
 
 void createConfigDirectory() {
@@ -75,12 +71,8 @@ int main() {
     createConfigDirectory();
     writeXML(os, pythonInstalled, gitInstalled);
 
-    if (pythonInstalled) {
-        std::cout << "Running main.py script..." << std::endl;
-        runPythonScript("src/main.py");
-    } else {
-        std::cerr << "Cannot run main.py script because Python 3 is not installed." << std::endl;
-    }
+    std::cout << "Running main.lua script..." << std::endl;
+    runLuaScript("src/main.lua");
 
     return 0;
 }
